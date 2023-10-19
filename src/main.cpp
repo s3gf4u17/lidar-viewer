@@ -7,17 +7,23 @@
 #include <iostream>
 #include "lib.h"
 
-#define SCREEN_WIDTH 1000
-#define SCREEN_HEIGHT 1000
+int SCREEN_WIDTH = 1400;
+int SCREEN_HEIGHT = 1000;
 
 float rotation = 0.0;
-float scale = 0.001;
+float scale = 0.1;
 bool rotating = false;
 bool moving = false;
 
 double movex = 0.0;
 double movey = 0.0;
 double lastx,lasty;
+
+void framebuffer_size_callback(GLFWwindow* window, int width, int height) {
+    glViewport(0, 0, width, height);
+    SCREEN_WIDTH = width;
+    SCREEN_HEIGHT = height;
+}
 
 void scroll_callback(GLFWwindow* window, double xoffset, double yoffset) {
     scale = (yoffset>0) ? scale*1.5 : (yoffset<0) ? scale/1.5 : scale;
@@ -51,13 +57,14 @@ static void cursor_position_callback(GLFWwindow* window, double xpos, double ypo
 const char *vertexShaderSource = "#version 330 core\n"
     "layout (location = 0) in vec3 aPos;\n"
     "layout (location = 1) in vec3 aCol;\n"
+    "uniform mat4 model;\n"
     "uniform mat4 view;\n"
-    "uniform mat4 transform;\n"
+    "uniform mat4 projection;\n"
     "out vec3 myColor;"
     "void main()\n"
     "{\n"
     // "gl_PointSize = 10.0;\n"
-    "   gl_Position = transform * vec4(aPos.x, aPos.z, aPos.y, 1.0);\n"
+    "   gl_Position = projection * view * model * vec4(aPos.x, aPos.z, aPos.y, 1.0);\n"
     "   myColor = aCol;\n"
     "}\0";
 const char *fragmentShaderSource = "#version 330 core\n"
@@ -79,6 +86,7 @@ int main() {
     glfwSetScrollCallback(window, scroll_callback);
     glfwSetMouseButtonCallback(window, mouse_button_callback);
     glfwSetCursorPosCallback(window, cursor_position_callback);
+    glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
 
     unsigned int vertexShader = glCreateShader(GL_VERTEX_SHADER);
     glShaderSource(vertexShader, 1, &vertexShaderSource, NULL);
@@ -138,18 +146,27 @@ int main() {
 
     while (!glfwWindowShouldClose(window)) {
         glClearColor(0.0f,0.0f,0.0f,1.0f);
-        glm::mat4 viewM = glm::perspective(glm::radians(45.0f),(float)SCREEN_WIDTH/(float)SCREEN_HEIGHT,0.1f,100.0f);
-        glUniformMatrix4fv(glGetUniformLocation(shaderProgram,"view"),1,GL_FALSE,glm::value_ptr(viewM));
+
+        glm::mat4 projectionM = glm::ortho(-SCREEN_WIDTH/2.0f, SCREEN_WIDTH/2.0f, SCREEN_HEIGHT/2.0f, -SCREEN_HEIGHT/2.0f, -1000.0f, 1000.0f);//glm::perspective(glm::radians(45.0f),(float)SCREEN_WIDTH/(float)SCREEN_HEIGHT,0.1f,100.0f);
+        glm::mat4 viewM = glm::translate(glm::mat4(1.0f),glm::vec3(0.0f,0.0f,3.0f));
+        glm::mat4 modelM = glm::mat4(1.0f);
+        modelM = glm::scale(modelM,glm::vec3(scale));
+        modelM = glm::rotate(modelM,glm::radians(180.0f),glm::vec3(0.0f,0.0f,1.0f));
+        modelM = glm::rotate(modelM,glm::radians(30.0f),glm::vec3(1.0f,0.0f,0.0f));
+        modelM = glm::translate(modelM,glm::vec3(-(lasfile.header.x_min+lasfile.header.x_max)/2.0,-(lasfile.header.z_min+lasfile.header.z_max)/2.0,-(lasfile.header.y_min+lasfile.header.y_max)/2.0));
+        glUniformMatrix4fv(glGetUniformLocation(shaderProgram,"model"),1,GL_FALSE,glm::value_ptr(modelM));
+        glUniformMatrix4fv(glGetUniformLocation(shaderProgram,"view"),1,GL_FALSE,&viewM[0][0]);
+        glUniformMatrix4fv(glGetUniformLocation(shaderProgram,"projection"),1,GL_FALSE,glm::value_ptr(projectionM));
     
-        glm::mat4 transM = glm::mat4(1.0f);
-        transM = glm::scale(transM,glm::vec3(scale));
-        // transM = glm::scale(transM,glm::vec3(0.0015));
-        transM = glm::rotate(transM,glm::radians(30.0f),glm::vec3(-1.0,0.0,0.0));
-        // transM = glm::rotate(transM,(float)glfwGetTime()/5, glm::vec3(0.0f, 1.0f, 0.0f));
-        transM = glm::rotate(transM,glm::radians(rotation), glm::vec3(0.0f, 1.0f, 0.0f));
-        transM = glm::translate(transM,glm::vec3(-(lasfile.header.x_min+lasfile.header.x_max)/2.0,-(lasfile.header.z_min+lasfile.header.z_max)/2.0,-(lasfile.header.y_min+lasfile.header.y_max)/2.0));
-        transM = glm::translate(transM,glm::vec3(movex,movey,0.0));
-        glUniformMatrix4fv(glGetUniformLocation(shaderProgram,"transform"),1,GL_FALSE,glm::value_ptr(transM));
+        // glm::mat4 transM = glm::mat4(1.0f);
+        // transM = glm::scale(transM,glm::vec3(scale));
+        // // transM = glm::scale(transM,glm::vec3(0.0015));
+        // transM = glm::rotate(transM,glm::radians(30.0f),glm::vec3(-1.0,0.0,0.0));
+        // // transM = glm::rotate(transM,(float)glfwGetTime()/5, glm::vec3(0.0f, 1.0f, 0.0f));
+        // transM = glm::rotate(transM,glm::radians(rotation), glm::vec3(0.0f, 1.0f, 0.0f));
+        // transM = glm::translate(transM,glm::vec3(-(lasfile.header.x_min+lasfile.header.x_max)/2.0,-(lasfile.header.z_min+lasfile.header.z_max)/2.0,-(lasfile.header.y_min+lasfile.header.y_max)/2.0));
+        // transM = glm::translate(transM,glm::vec3(movex,movey,0.0));
+        // glUniformMatrix4fv(glGetUniformLocation(shaderProgram,"transform"),1,GL_FALSE,glm::value_ptr(transM));
 
         glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
         glUseProgram(shaderProgram);
