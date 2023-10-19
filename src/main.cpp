@@ -13,8 +13,11 @@
 float rotation = 0.0;
 float scale = 0.001;
 bool rotating = false;
+bool moving = false;
 
-double lastx;
+double movex = 0.0;
+double movey = 0.0;
+double lastx,lasty;
 
 void scroll_callback(GLFWwindow* window, double xoffset, double yoffset) {
     scale = (yoffset>0) ? scale*1.5 : (yoffset<0) ? scale/1.5 : scale;
@@ -25,6 +28,10 @@ void mouse_button_callback(GLFWwindow* window, int button, int action, int mods)
         rotating = true;
     } else if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_RELEASE) {
         rotating = false;
+    } else if (button == GLFW_MOUSE_BUTTON_RIGHT && action == GLFW_PRESS) {
+        moving = true;
+    } else if (button == GLFW_MOUSE_BUTTON_RIGHT && action == GLFW_RELEASE) {
+        moving = false;
     }
 }
 
@@ -32,7 +39,12 @@ static void cursor_position_callback(GLFWwindow* window, double xpos, double ypo
     if (rotating) {
         rotation = rotation + (lastx-xpos)/2;
     }
+    if (moving) {
+        movex = movex + (xpos-lastx)/scale/500;
+        movey = movey + (lasty-ypos)/scale/500;
+    }
     lastx = xpos;
+    lasty = ypos;
 }
 
 
@@ -136,6 +148,7 @@ int main() {
         // transM = glm::rotate(transM,(float)glfwGetTime()/5, glm::vec3(0.0f, 1.0f, 0.0f));
         transM = glm::rotate(transM,glm::radians(rotation), glm::vec3(0.0f, 1.0f, 0.0f));
         transM = glm::translate(transM,glm::vec3(-(lasfile.header.x_min+lasfile.header.x_max)/2.0,-(lasfile.header.z_min+lasfile.header.z_max)/2.0,-(lasfile.header.y_min+lasfile.header.y_max)/2.0));
+        transM = glm::translate(transM,glm::vec3(movex,movey,0.0));
         glUniformMatrix4fv(glGetUniformLocation(shaderProgram,"transform"),1,GL_FALSE,glm::value_ptr(transM));
 
         glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
