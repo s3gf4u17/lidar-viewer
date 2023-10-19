@@ -31,12 +31,18 @@ void scroll_callback(GLFWwindow* window, double xoffset, double yoffset) {
 
 void mouse_button_callback(GLFWwindow* window, int button, int action, int mods) {
     if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS) {
+        GLFWcursor* cursor = glfwCreateStandardCursor(GLFW_HAND_CURSOR);
+        glfwSetCursor(window, cursor);
         rotating = true;
     } else if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_RELEASE) {
+        glfwSetCursor(window, NULL);
         rotating = false;
     } else if (button == GLFW_MOUSE_BUTTON_RIGHT && action == GLFW_PRESS) {
+        GLFWcursor* cursor = glfwCreateStandardCursor(GLFW_HAND_CURSOR);
+        glfwSetCursor(window, cursor);
         moving = true;
     } else if (button == GLFW_MOUSE_BUTTON_RIGHT && action == GLFW_RELEASE) {
+        glfwSetCursor(window, NULL);
         moving = false;
     }
 }
@@ -46,8 +52,8 @@ static void cursor_position_callback(GLFWwindow* window, double xpos, double ypo
         rotation = rotation + (lastx-xpos)/2;
     }
     if (moving) {
-        movex = movex + (xpos-lastx)/scale/500;
-        movey = movey + (lasty-ypos)/scale/500;
+        movex = movex + std::max(std::min((xpos-lastx)/scale,1.0),-1.0);
+        movey = movey + std::max(std::min((ypos-lasty)/scale,1.0),-1.0);
     }
     lastx = xpos;
     lasty = ypos;
@@ -125,7 +131,7 @@ int main() {
     glDeleteShader(vertexShader);
     glDeleteShader(fragmentShader);
 
-    LasFile lasfile("../data/lidar_san.las");
+    LasFile lasfile("../data/lidar_rysy.las");
     std::cout << lasfile << std::endl;
     unsigned int VBO, VAO;
     glGenVertexArrays(1, &VAO);
@@ -147,12 +153,14 @@ int main() {
     while (!glfwWindowShouldClose(window)) {
         glClearColor(0.0f,0.0f,0.0f,1.0f);
 
-        glm::mat4 projectionM = glm::ortho(-SCREEN_WIDTH/2.0f, SCREEN_WIDTH/2.0f, SCREEN_HEIGHT/2.0f, -SCREEN_HEIGHT/2.0f, -1000.0f, 1000.0f);//glm::perspective(glm::radians(45.0f),(float)SCREEN_WIDTH/(float)SCREEN_HEIGHT,0.1f,100.0f);
+        glm::mat4 projectionM = glm::ortho(-SCREEN_WIDTH/2.0f, SCREEN_WIDTH/2.0f, SCREEN_HEIGHT/2.0f, -SCREEN_HEIGHT/2.0f, -100000.0f, 1000.0f);//glm::perspective(glm::radians(45.0f),(float)SCREEN_WIDTH/(float)SCREEN_HEIGHT,0.1f,100.0f);
         glm::mat4 viewM = glm::translate(glm::mat4(1.0f),glm::vec3(0.0f,0.0f,3.0f));
+        viewM = glm::translate(viewM,glm::vec3(movex,movey,0.0f));
         glm::mat4 modelM = glm::mat4(1.0f);
         modelM = glm::scale(modelM,glm::vec3(scale));
         modelM = glm::rotate(modelM,glm::radians(180.0f),glm::vec3(0.0f,0.0f,1.0f));
         modelM = glm::rotate(modelM,glm::radians(30.0f),glm::vec3(1.0f,0.0f,0.0f));
+        modelM = glm::rotate(modelM,glm::radians(rotation), glm::vec3(0.0f, 1.0f, 0.0f));
         modelM = glm::translate(modelM,glm::vec3(-(lasfile.header.x_min+lasfile.header.x_max)/2.0,-(lasfile.header.z_min+lasfile.header.z_max)/2.0,-(lasfile.header.y_min+lasfile.header.y_max)/2.0));
         glUniformMatrix4fv(glGetUniformLocation(shaderProgram,"model"),1,GL_FALSE,glm::value_ptr(modelM));
         glUniformMatrix4fv(glGetUniformLocation(shaderProgram,"view"),1,GL_FALSE,&viewM[0][0]);
