@@ -7,15 +7,25 @@ las2las -i <input.laz> -o <output.las>
 lasmerge -i <input.laz/input.las> -o <output.laz/output.las>
 ```
 
+## Examples
+
 <table width="100%">
   <tr>
-  <td width="33.3%" align="center">Warsaw National Stadium</td>
-  <td width="33.3%" align="center">Rysy - highest point of Poland</td>
-  <td width="33.3%" align="center">The southernmost point of Poland</td>
+  <td width="100.0%" align="center">Fragment of the Tatra National Park (57 049 110 points/1.9 GB)</td>
   </tr>
   <tr>
-  <td width="33.3%"><img src="/images/scr1.png?raw=true"/></td>
-  <td width="33.3%"><img src="/images/scr2.png?raw=true"/></td>
-  <td width="33.3%"><img src="/images/scr3.png?raw=true"/></td>
+  <td width="100.0%"><img src="/images/scr1.png?raw=true"/></td>
+  </tr>
+  <tr>
+  <td width="100.0%" align="center">Polsat Plus Arena Gdańsk (23 700 686 points/769 MB)</td>
+  </tr>
+  <tr>
+  <td width="100.0%"><img src="/images/scr3.png?raw=true"/></td>
+  </tr>
+  <tr>
+  <td width="100.0%" align="center">Jaworzno Power Station (60 298 174 points/2.0 GB)</td>
+  </tr>
+  <tr>
+  <td width="100.0%"><img src="/images/scr2.png?raw=true"/></td>
   </tr>
 </table>
