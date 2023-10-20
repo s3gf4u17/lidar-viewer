@@ -41,7 +41,7 @@ las2las -i <laz dataset>.laz -o <las dataset>.las
 
 <table width="100%">
   <tr>
-  <td width="33.3%" align="center">Fragment of the Tatra National Park</td>
+  <td width="33.3%" align="center">Tatra National Park</td>
   <td width="33.3%" align="center">Polsat Plus Arena Gdańsk</td>
   <td width="33.3%" align="center">Jaworzno Power Station</td>
   </tr>
