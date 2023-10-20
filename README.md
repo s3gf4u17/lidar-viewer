@@ -13,8 +13,8 @@ Fast and simple way to render data of your own choice.
 
 <table width="100%">
   <tr>
-  <td width="50.0%" align="center">Visit Polish Geoportal [here](mapy.geoportal.gov.pl)</td>
-  <td width="50.0%" align="center">Enable Lidar measurements in "Data for download" folder</td>
+  <td width="50.0%" align="center">Visit Polish Geoportal <a href="mapy.geoportal.gov.pl">here</a></td>
+  <td width="50.0%" align="center">Enable download of lidar measurements</td>
   </tr>
   <tr>
   <td width="50.0%"><img src="/images/man1.png?raw=true"/></td>
