@@ -21,8 +21,8 @@ Fast and simple way to render data of your own choice.
   <td width="50.0%"><img src="/images/man2.png?raw=true"/></td>
   </tr>
   <tr>
-  <td width="50.0%" align="center">Fragment of the Tatra National Park (57 049 110 points/1.9 GB)</td>
-  <td width="50.0%" align="center">Fragment of the Tatra National Park (57 049 110 points/1.9 GB)</td>
+  <td width="50.0%" align="center">Zoom in to find your tiles of interest</td>
+  <td width="50.0%" align="center">Select desired density and download</td>
   </tr>
   <tr>
   <td width="50.0%"><img src="/images/man3.png?raw=true"/></td>
