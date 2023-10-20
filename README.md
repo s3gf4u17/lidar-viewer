@@ -41,21 +41,18 @@ las2las -i <laz dataset>.laz -o <las dataset>.las
 
 <table width="100%">
   <tr>
-  <td width="100.0%" align="center">Fragment of the Tatra National Park (57 049 110 points/1.9 GB)</td>
+  <td width="33.3%" align="center">Fragment of the Tatra National Park (57 049 110 points/1.9 GB)</td>
+  <td width="33.3%" align="center">Polsat Plus Arena Gdańsk (23 700 686 points/769 MB)</td>
+  <td width="33.3%" align="center">Jaworzno Power Station (60 298 174 points/2.0 GB)</td>
   </tr>
   <tr>
-  <td width="100.0%"><img src="/images/scr1.png?raw=true"/></td>
+  <td width="33.3%" align="center">57 049 110 points / 1.9 GB</td>
+  <td width="33.3%" align="center">23 700 686 points / 769 MB</td>
+  <td width="33.3%" align="center">60 298 174 points / 2.0 GB</td>
   </tr>
   <tr>
-  <td width="100.0%" align="center">Polsat Plus Arena Gdańsk (23 700 686 points/769 MB)</td>
-  </tr>
-  <tr>
-  <td width="100.0%"><img src="/images/scr3.png?raw=true"/></td>
-  </tr>
-  <tr>
-  <td width="100.0%" align="center">Jaworzno Power Station (60 298 174 points/2.0 GB)</td>
-  </tr>
-  <tr>
-  <td width="100.0%"><img src="/images/scr2.png?raw=true"/></td>
+  <td width="33.3%"><img src="/images/scr1.png?raw=true"/></td>
+  <td width="33.3%"><img src="/images/scr3.png?raw=true"/></td>
+  <td width="33.3%"><img src="/images/scr2.png?raw=true"/></td>
   </tr>
 </table>
