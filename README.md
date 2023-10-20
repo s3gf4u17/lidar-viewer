@@ -1,11 +1,6 @@
 ## Project
 
-this prototype allows for quick preview of lidar point clouds in `.las` format. if you're having trouble trying to transform your points between `.laz` to `.las` format i recommend using LAStools available [here](https://github.com/LAStools/LAStools). download the source code, compile it and transform your data using these two useful programs:
-
-```bash
-las2las -i <input.laz> -o <output.las>
-lasmerge -i <input.laz/input.las> -o <output.laz/output.las>
-```
+this prototype allows for quick preview of lidar point clouds.
 
 ## Find data
 
@@ -29,6 +24,18 @@ Fast and simple way to render data of your own choice.
   <td width="50.0%"><img src="/images/man4.png?raw=true"/></td>
   </tr>
 </table>
+
+If your area of interest consists of more than one tile, you can connect them into one dataset using [LAStools](https://github.com/LAStools/LAStools). Simply download the source code, compile it and use command:
+
+```bash
+lasmerge -i <downloaded tiles>.laz -o <merged dataset>.laz
+```
+
+Keep in mind that lidar-viewer supports `.las` format only. To decompress data from `.laz` to `.las` you can use LAStools as well:
+
+```bash
+las2las -i <laz dataset>.laz -o <las dataset>.las
+```
 
 ## Examples
 
