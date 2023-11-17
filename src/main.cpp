@@ -16,9 +16,10 @@
 
 float rotationx = 0.0;
 float rotationy = 0.0;
-float scale = 0.6;
+float scale = 3;
 bool rotating = false;
 bool moving = false;
+float pointsize = 1;
 
 double movex = 0.0;
 double movey = 0.0;
@@ -144,7 +145,7 @@ int main() {
     glDeleteShader(vertexShader);
     glDeleteShader(fragmentShader);
 
-    LasFile lasfile("../data/lidar_stadion.las");
+    LasFile lasfile("../politechnika.las");
     std::cout << lasfile << std::endl;
     unsigned int VBO, VAO;
     glGenVertexArrays(1, &VAO);
@@ -159,7 +160,7 @@ int main() {
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindVertexArray(0);
     glEnable(GL_PROGRAM_POINT_SIZE);
-    glPointSize(2);
+    glPointSize(pointsize);
     glfwSwapInterval(1);
     glEnable(GL_DEPTH_TEST);
 
