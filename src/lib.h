@@ -82,7 +82,7 @@ public:
         generate_stream();
     }
     void generate_stream() {
-        for (int i=0;i<header.numOfPointRecords;i++) {
+        for (int i=0;i<10000;i++) {
             switch((short)header.pointDataFormat) {
                 case 1: {
                     data_stream.push_back(points1[i].xpos*header.x_sca+header.x_off);
@@ -91,31 +91,9 @@ public:
                     // data_stream.push_back(points1[i].xpos*header.x_sca);
                     // data_stream.push_back(points1[i].ypos*header.y_sca);
                     // data_stream.push_back(points1[i].zpos*header.z_sca);
-                    data_stream.push_back(points1[i].classification*40);
-                    data_stream.push_back(points1[i].classification*40);
-                    data_stream.push_back(points1[i].classification*40);
-                    break;
-                }
-                case 2: {
-                    data_stream.push_back(((points2[i].xpos*header.x_sca+header.x_off)-header.x_min)/deltax*2.0-1.0);
-                    data_stream.push_back(((points2[i].ypos*header.y_sca+header.y_off)-header.y_min)/deltay*2.0-1.0);
-                    data_stream.push_back(((points2[i].zpos*header.z_sca+header.z_off)-header.z_min)/deltaz*2.0-1.0);
-                    data_stream.push_back(points2[i].red/256.0);
-                    data_stream.push_back(points2[i].green/256.0);
-                    data_stream.push_back(points2[i].blue/256.0);
-                    break;
-                }
-                case 3: {
-                    if (points3[i].classification==7) break;
-                    // data_stream.push_back(((points3[i].xpos*header.x_sca+header.x_off)-header.x_min)/deltax*2.0-1.0);
-                    // data_stream.push_back(((points3[i].ypos*header.y_sca+header.y_off)-header.y_min)/deltay*2.0-1.0);
-                    // data_stream.push_back(((points3[i].zpos*header.z_sca+header.z_off)-header.z_min)/deltaz*2.0-1.0);
-                    data_stream.push_back(points3[i].xpos*header.x_sca+header.x_off);
-                    data_stream.push_back(points3[i].ypos*header.y_sca+header.y_off);
-                    data_stream.push_back(points3[i].zpos*header.z_sca+header.z_off);
-                    data_stream.push_back(points3[i].red/256.0);
-                    data_stream.push_back(points3[i].green/256.0);
-                    data_stream.push_back(points3[i].blue/256.0);
+                    data_stream.push_back(points1[i].intensity);
+                    data_stream.push_back(points1[i].intensity);
+                    data_stream.push_back(points1[i].intensity);
                     break;
                 }
                 default: break;

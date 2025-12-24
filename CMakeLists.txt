@@ -5,7 +5,7 @@ project(grafika3d-projekt1)
 set(CMAKE_CXX_FLAGS "-O3")
 
 set(IMGUI lib/imgui/imgui_demo.cpp lib/imgui/imgui_draw.cpp lib/imgui/imgui_tables.cpp lib/imgui/imgui_widgets.cpp lib/imgui/imgui.cpp lib/imgui/backends/imgui_impl_glfw.cpp lib/imgui/backends/imgui_impl_opengl3.cpp)
-add_executable(${PROJECT_NAME} src/main.cpp ${IMGUI})
+add_executable(${PROJECT_NAME} src/main.cpp ${IMGUI} lib/glad/src/glad.c)
 
 set(GLFW_BUILD_DOCS OFF CACHE BOOL "" FORCE)
 set(GLFW_BUILD_TESTS OFF CACHE BOOL "" FORCE)
