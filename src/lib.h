@@ -82,7 +82,7 @@ public:
         generate_stream();
     }
     void generate_stream() {
-        for (int i=0;i<10000;i++) {
+        for (int i=0;i<header.numOfPointRecords;i++) {
             switch((short)header.pointDataFormat) {
                 case 1: {
                     data_stream.push_back(points1[i].xpos*header.x_sca+header.x_off);
